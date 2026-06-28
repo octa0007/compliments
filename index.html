@@ -3,168 +3,310 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#060210">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Sana Özel 💕</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold:        #d4af37;
+      --gold-lt:     #f0d060;
+      --rose:        #c2185b;
+      --rose-lt:     #f48fb1;
+      --purple:      #8e24aa;
+      --purple-lt:   #ce93d8;
+      --bg:          #060210;
+      --text:        #fdeef5;
+      --text-2:      #c9a0b4;
+      --text-3:      #6a4060;
+      --card-bg:     rgba(6, 1, 16, 0.92);
+      --ease:        cubic-bezier(.4,0,.2,1);
+      --ease-out:    cubic-bezier(0,0,.2,1);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       min-height: 100vh;
-      background: #0a0410;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-family: 'Lato', sans-serif;
-      color: #f9e8ef;
-      overflow-x: hidden;
-      padding: 2rem 1rem 4rem;
-      position: relative;
     }
 
-    /* ── Stars ── */
-    #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-    .star { position: absolute; background: white; border-radius: 50%; animation: twinkle ease-in-out infinite; }
-    @keyframes twinkle { 0%,100%{opacity:0.07} 50%{opacity:0.55} }
-
-    /* ── Petals ── */
-    .petal {
-      position: fixed; border-radius: 50% 0 50% 0; pointer-events: none; z-index: 1;
-      animation: fallDown linear infinite; opacity: 0;
+    /* ═══ LOADER ═══════════════════════════════════════════════ */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200;
+      transition: opacity .9s var(--ease), visibility .9s;
     }
-    @keyframes fallDown {
-      0%   { transform: translateY(-30px) rotate(0deg) scale(1); opacity: 0.7; }
-      80%  { opacity: 0.4; }
-      100% { transform: translateY(110vh) rotate(540deg) scale(0.6); opacity: 0; }
+    #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-inner { text-align: center; }
+    .loader-heart { font-size: 2rem; display: block; animation: lbeat 1s ease-in-out infinite; }
+    .loader-txt { font-size: .65rem; letter-spacing: .3em; text-transform: uppercase; color: var(--text-3); margin-top: .75rem; }
+    @keyframes lbeat { 0%,100%{transform:scale(.85);opacity:.4} 50%{transform:scale(1.2);opacity:1} }
+
+    /* ═══ CANVAS BACKGROUND ═════════════════════════════════════ */
+    #bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* ═══ AURORA ORBS (CSS) ═════════════════════════════════════ */
+    .orb {
+      position: fixed; border-radius: 50%;
+      pointer-events: none; z-index: 0; filter: blur(90px);
+    }
+    .o1 { width:70vmax; height:70vmax; background:radial-gradient(circle, rgba(142,36,170,.18) 0%, transparent 70%); top:-30%; left:-20%; animation: o1 20s ease-in-out infinite alternate; }
+    .o2 { width:60vmax; height:60vmax; background:radial-gradient(circle, rgba(194,24,91,.14) 0%, transparent 70%); bottom:-25%; right:-20%; animation: o2 26s ease-in-out infinite alternate; }
+    .o3 { width:40vmax; height:40vmax; background:radial-gradient(circle, rgba(212,175,55,.07) 0%, transparent 70%); top:45%; left:55%; animation: o3 18s ease-in-out infinite alternate; }
+    @keyframes o1 { to { transform: translate(4vw, 6vh) scale(1.05); } }
+    @keyframes o2 { to { transform: translate(-4vw, -5vh) scale(1.08); } }
+    @keyframes o3 { to { transform: translate(-5vw, 4vh) scale(.95); } }
+
+    /* ═══ PAGE WRAPPER ══════════════════════════════════════════ */
+    .page {
+      position: relative; z-index: 10;
+      max-width: 680px; width: 100%;
+      padding: 3.5rem 1.25rem 6rem;
+      display: flex; flex-direction: column; align-items: center;
     }
 
-    /* ── Layout ── */
-    .container { position: relative; z-index: 10; max-width: 640px; width: 100%; text-align: center; }
-
-    /* ── Birthday Banner ── */
-    .bday-banner {
-      margin-bottom: 1.8rem;
-      border-radius: 18px;
-      padding: 1.1rem 1.5rem;
-      background: rgba(212,175,55,0.07);
-      border: 1px solid rgba(212,175,55,0.3);
-      animation: fadeDown 0.8s ease both;
+    /* ═══ HEADER ════════════════════════════════════════════════ */
+    .greeting {
+      font-size: clamp(.7rem,2vw,.78rem); letter-spacing: .35em;
+      text-transform: uppercase; color: var(--rose-lt);
+      margin-bottom: .6rem;
+      opacity: 0; animation: up .8s var(--ease-out) .15s forwards;
     }
-    .bday-banner.today { border-color: rgba(212,175,55,0.6); background: rgba(212,175,55,0.1); }
-    .bday-banner-title { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem,3.5vw,1.4rem); color: #f0d060; margin-bottom: 0.3rem; }
-    .bday-banner-sub { font-size: 0.82rem; color: #c9a0b4; letter-spacing: 0.1em; }
-
-    /* ── Header ── */
     .for-name {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.2rem, 4vw, 1.65rem);
-      color: #f0d060; letter-spacing: 0.06em;
-      margin-bottom: 0.3rem; animation: fadeDown 0.9s ease both;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem,7vw,3.4rem); font-weight: 300;
+      color: var(--gold-lt); letter-spacing: .02em; line-height: 1.1;
+      margin-bottom: .55rem;
+      opacity: 0; animation: up .8s var(--ease-out) .25s forwards;
     }
-    .today-label {
-      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-      color: #c9a0b4; margin-bottom: 2rem; animation: fadeDown 0.9s ease 0.12s both;
+    .date-line {
+      font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 3rem;
+      opacity: 0; animation: up .8s var(--ease-out) .35s forwards;
     }
 
-    /* ── Main Card ── */
+    /* ═══ BIRTHDAY BANNER ═══════════════════════════════════════ */
+    .bday-banner {
+      width: 100%; border-radius: 20px;
+      padding: 1.3rem 1.75rem; margin-bottom: 2rem; text-align: center;
+      background: linear-gradient(135deg,rgba(212,175,55,.06),rgba(194,24,91,.06));
+      border: 1px solid rgba(212,175,55,.25);
+      opacity: 0; animation: up .8s var(--ease-out) .38s forwards;
+    }
+    .bday-banner.is-today { border-color: rgba(212,175,55,.55); background: linear-gradient(135deg,rgba(212,175,55,.1),rgba(194,24,91,.1)); }
+    .bday-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1rem,3.5vw,1.35rem); color:var(--gold-lt); margin-bottom:.3rem; }
+    .bday-sub   { font-size:.76rem; color:var(--text-2); letter-spacing:.07em; }
+
+    /* ═══ MAIN CARD ═════════════════════════════════════════════ */
+    .card-wrap {
+      width: 100%; position: relative; margin-bottom: 2rem;
+      opacity: 0; animation: up .9s var(--ease-out) .45s forwards;
+    }
+    /* animated gradient glow ring */
+    .card-glow {
+      position: absolute; inset: -2px; border-radius: 26px;
+      background: conic-gradient(from var(--a,0deg), var(--rose) 0%, var(--purple) 30%, var(--gold) 60%, var(--rose) 100%);
+      filter: blur(10px); opacity: .35;
+      animation: glowSpin 8s linear infinite;
+    }
+    @property --a { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+    @keyframes glowSpin { to { --a: 360deg; } }
+
     .card {
-      border: 1px solid rgba(212,175,55,0.18); border-radius: 22px;
-      padding: clamp(2rem,6vw,3.5rem) clamp(1.5rem,5vw,3rem);
-      margin-bottom: 1.6rem;
-      background: rgba(14,5,20,0.92);
-      animation: fadeIn 1.1s ease 0.3s both;
-      position: relative; overflow: hidden;
+      position: relative; z-index: 1;
+      border: 1px solid rgba(212,175,55,.16);
+      border-radius: 24px;
+      padding: clamp(2.5rem,6vw,4rem) clamp(2rem,5vw,3.5rem);
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      text-align: center;
     }
-    .card::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% -20%, rgba(180,24,91,0.09) 0%, transparent 70%);
-      pointer-events: none;
+
+    /* decorative line eyebrow */
+    .eyebrow {
+      display: flex; align-items: center; gap: .9rem; margin-bottom: 2.5rem;
     }
-    .comp-tag {
-      font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
-      color: #f48fb1; margin-bottom: 1.8rem;
+    .eyebrow-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,175,55,.25), transparent);
     }
+    .eyebrow-text {
+      font-size: .58rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--rose-lt); white-space: nowrap;
+    }
+
+    /* compliment text */
+    .compliment-wrap { min-height: 130px; display:flex; align-items:center; justify-content:center; margin-bottom: 2.5rem; }
     .compliment {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.2rem, 3.8vw, 1.8rem);
-      line-height: 1.7; color: #fdeef5; font-style: italic;
-      margin-bottom: 2rem; position: relative;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem,4.5vw,2.15rem); font-weight: 300;
+      line-height: 1.7; color: var(--text); font-style: italic;
     }
-    .compliment::before { content: '\201C'; color: #d4af37; font-size: 3em; line-height:0; vertical-align:-0.45em; margin-right:0.05em; font-style:normal; }
-    .compliment::after  { content: '\201D'; color: #d4af37; font-size: 3em; line-height:0; vertical-align:-0.45em; margin-left:0.05em;  font-style:normal; }
-    .from-line { font-size: 0.82rem; color: #c9a0b4; letter-spacing: 0.12em; }
+    .q-open, .q-close {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2em; line-height: 0;
+      vertical-align: -.42em; font-style: normal;
+      color: var(--gold); opacity: .55;
+    }
+    .q-open { margin-right: .03em; }
+    .q-close { margin-left: .03em;  }
+    .cursor-blink {
+      display: inline-block; width: 2px; height: 1em;
+      background: var(--gold); vertical-align: -.1em;
+      animation: cur .85s step-end infinite; margin-left: 2px;
+    }
+    @keyframes cur { 50%{opacity:0} }
 
-    /* ── Section Label ── */
-    .section-label {
-      font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
-      color: #8a6070; margin: 0 0 1rem; animation: fadeIn 1s ease 0.6s both;
+    /* from line + bottom divider */
+    .from-line {
+      font-size: .75rem; font-weight: 400; letter-spacing: .2em;
+      color: var(--text-3); margin-bottom: 2.5rem;
     }
 
-    /* ── Astrology Grid ── */
+    /* action buttons */
+    .card-actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Raleway',sans-serif;
+      font-size: .68rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+      padding: .65rem 1.4rem; border-radius: 99px; border: 1px solid;
+      cursor: pointer; transition: all .25s var(--ease);
+      background: transparent; color: inherit;
+    }
+    .btn-copy  { color:var(--rose-lt); border-color:rgba(194,24,91,.3); }
+    .btn-copy:hover  { background:rgba(194,24,91,.08); border-color:rgba(194,24,91,.55); }
+    .btn-copy.ok     { color:#81c784; border-color:rgba(129,199,132,.45); }
+    .btn-share { color:var(--gold);   border-color:rgba(212,175,55,.28); }
+    .btn-share:hover { background:rgba(212,175,55,.07); border-color:rgba(212,175,55,.55); }
+
+    /* ═══ SECTION DIVIDER ═══════════════════════════════════════ */
+    .sec-label {
+      display: flex; align-items: center; gap: 1rem;
+      width: 100%; margin-bottom: 1.1rem;
+      opacity: 0; animation: up .8s var(--ease-out) .65s forwards;
+    }
+    .sec-label-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(130,80,160,.28),transparent); }
+    .sec-label-text { font-size:.58rem; letter-spacing:.3em; text-transform:uppercase; color:var(--text-3); white-space:nowrap; }
+
+    /* ═══ ASTROLOGY ═════════════════════════════════════════════ */
     .astro-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px; margin-bottom: 1.6rem;
-      animation: fadeUp 0.9s ease 0.65s both;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 10px; width: 100%; margin-bottom: 1.25rem;
+      opacity: 0; animation: up .8s var(--ease-out) .72s forwards;
     }
-    @media(max-width:480px) { .astro-grid { grid-template-columns: 1fr 1fr; } .astro-grid .a3 { grid-column: 1/-1; } }
-
-    .astro-card {
-      border: 1px solid rgba(140,90,160,0.22);
-      border-radius: 16px; padding: 1.1rem 0.9rem;
-      background: rgba(20,8,30,0.85); text-align: center;
+    @media(max-width:420px) {
+      .astro-grid { grid-template-columns: 1fr 1fr; }
+      .astro-grid .span2 { grid-column: 1/-1; }
     }
-    .astro-icon { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
-    .astro-title { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #b88fc4; margin-bottom: 0.35rem; }
-    .astro-value { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #e8d0f0; font-weight: 500; }
-    .astro-sub { font-size: 0.68rem; color: #8a6070; margin-top: 0.25rem; }
+    .a-card {
+      border: 1px solid rgba(130,70,160,.2); border-radius: 18px;
+      padding: 1.3rem .75rem 1.1rem;
+      background: rgba(14,4,28,.8);
+      text-align: center;
+      transition: border-color .3s, transform .3s var(--ease);
+      cursor: default;
+    }
+    .a-card:hover { border-color:rgba(170,100,210,.4); transform:translateY(-3px); }
+    .a-icon  { font-size:2rem; display:block; margin-bottom:.55rem; }
+    .a-label { font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(170,120,200,.65); margin-bottom:.35rem; }
+    .a-val   { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#e8d0f0; font-weight:400; }
+    .a-sub   { font-size:.63rem; color:var(--text-3); margin-top:.25rem; }
 
-    /* ── Traits ── */
-    .traits-wrap {
-      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
-      margin-bottom: 1.6rem; animation: fadeUp 0.9s ease 0.8s both;
+    /* ═══ TRAITS ════════════════════════════════════════════════ */
+    .traits {
+      display:flex; flex-wrap:wrap; gap:7px; justify-content:center;
+      width:100%; margin-bottom:2rem;
+      opacity:0; animation: up .8s var(--ease-out) .82s forwards;
     }
     .trait {
-      font-size: 0.72rem; letter-spacing: 0.08em;
-      border: 1px solid rgba(140,90,180,0.25);
-      border-radius: 99px; padding: 4px 14px;
-      background: rgba(140,90,180,0.07); color: #c4a0d8;
+      font-size:.67rem; font-weight:400; letter-spacing:.1em;
+      border:1px solid rgba(130,70,180,.2); border-radius:99px; padding:5px 15px;
+      background:rgba(130,70,180,.05); color:rgba(200,155,225,.8);
+      transition:all .25s;
     }
+    .trait:hover { border-color:rgba(170,100,230,.4); background:rgba(130,70,180,.1); }
 
-    /* ── Stats ── */
-    .stats { display: flex; gap: 12px; justify-content: center; margin-bottom: 1.6rem; flex-wrap: wrap; animation: fadeUp 0.9s ease 0.9s both; }
-    .stat { border: 1px solid rgba(212,175,55,0.14); border-radius: 14px; padding: 0.85rem 1.4rem; min-width: 110px; background: rgba(212,175,55,0.04); }
-    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 500; color: #d4af37; line-height: 1; margin-bottom: 0.3rem; }
-    .stat-lbl { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c9a0b4; }
+    /* ═══ STATS ═════════════════════════════════════════════════ */
+    .stats {
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+      width:100%; margin-bottom:3rem;
+      opacity:0; animation:up .8s var(--ease-out) .92s forwards;
+    }
+    .stat {
+      flex:1; min-width:100px; max-width:170px;
+      border:1px solid rgba(212,175,55,.11); border-radius:16px;
+      padding:1.1rem 1.25rem; background:rgba(212,175,55,.025); text-align:center;
+    }
+    .stat-n { font-family:'Cormorant Garamond',serif; font-size:2.3rem; font-weight:300; color:var(--gold); line-height:1; margin-bottom:.35rem; }
+    .stat-l { font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-3); }
 
-    /* ── Footer ── */
-    footer { font-size: 0.8rem; color: #7a5068; animation: fadeUp 0.9s ease 1s both; line-height: 1.9; }
-    .heart { display: inline-block; animation: pulse 2.2s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+    /* ═══ FOOTER ════════════════════════════════════════════════ */
+    footer {
+      width:100%; text-align:center;
+      opacity:0; animation:up .8s var(--ease-out) 1.05s forwards;
+    }
+    .f-line { height:1px; width:60px; margin:0 auto 1.75rem; background:linear-gradient(90deg,transparent,rgba(212,175,55,.28),transparent); }
+    .f-heart { font-size:1.15rem; display:inline-block; animation:hb 2.6s ease-in-out infinite; margin-bottom:.7rem; }
+    @keyframes hb { 0%,100%{transform:scale(1)} 14%{transform:scale(1.22)} 28%{transform:scale(1)} 42%{transform:scale(1.12)} 56%{transform:scale(1)} }
+    .f-text { font-size:.72rem; color:var(--text-3); line-height:2.1; letter-spacing:.06em; }
 
-    /* ── Animations ── */
-    @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:none} }
-    @keyframes fadeUp   { from{opacity:0;transform:translateY(16px)}  to{opacity:1;transform:none} }
-    @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+    /* ═══ UTILITIES ═════════════════════════════════════════════ */
+    @keyframes up   { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+    @keyframes down { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:none} }
+
+    @media(max-width:480px) {
+      .card { padding:2.25rem 1.4rem; }
+      .card-actions { flex-direction:column; align-items:center; }
+    }
   </style>
 </head>
 <body>
 
-<div id="stars"></div>
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-inner">
+    <span class="loader-heart">🌹</span>
+    <p class="loader-txt">Sana Özel Hazırlanıyor…</p>
+  </div>
+</div>
 
-<!-- ══ CONFIGURATION ═══════════════════════════════════════════════ -->
+<!-- AURORA ORBS -->
+<div class="o1 orb"></div>
+<div class="o2 orb"></div>
+<div class="o3 orb"></div>
+
+<!-- CANVAS (stars + petals) -->
+<canvas id="bg"></canvas>
+
+<!-- ══════════════════════ CONFIG ══════════════════════════════ -->
 <script>
 const CONFIG = {
-  name:          "Sultan",           // ← her name / nickname
-  birthday:      "2000-06-29",      // ← her birthday (YYYY-MM-DD)
-  togetherSince: "",                // ← anniversary date, e.g. "2022-03-14" (or leave "")
-  senderName:    "Seni seven",      // ← your sign-off
+  name:          "Sultan",
+  birthday:      "2000-06-29",
+  togetherSince: "2024-12-01",           // e.g. "2022-08-14"
+  senderName:    "Seni seven",
 };
 </script>
-<!-- ═══════════════════════════════════════════════════════════════ -->
 
+<!-- ══════════════════════ COMPLIMENTS ════════════════════════ -->
 <script>
-/* ── 153 Turkish compliments ─────────────────────────────────── */
 const COMPLIMENTS = [
-  /* Klasik romantik */
   "Gülüşün odayı aydınlatıyor, tıpkı güneşin sabahı aydınlattığı gibi.",
   "Sen dünyayı daha güzel bir yer yapıyorsun, sadece var olarak.",
   "Varlığın tek başına bir armağan — bunu hiç unutma.",
@@ -230,7 +372,7 @@ const COMPLIMENTS = [
   "Seninle olmak, hayatımın en iyi kararı — her gün bunu hissediyorum.",
   "Sen benim için hem sığınak hem macera.",
   "Kırşehir seni doğurmuş, dünya sana şükretmeli.",
-  /* Pet names ❤️ */
+  /* Pet names 💕 */
   "Meri jaan, sen benim canım, ruhum, her şeyimsin — bunu her zaman bil.",
   "Mein fettisacki, ne kadar tatlı ve eşsiz birisin — kelimeler yetmiyor.",
   "Sevgili buggi schnuggi'm, seninle her gün yeni bir mucize başlıyor.",
@@ -254,27 +396,21 @@ const COMPLIMENTS = [
   "Her halinle büyüleyicisin — sevinçli, düşünceli, hatta hüzünlüyken bile.",
   "Seni sevmek, en güzel şiiri ezbere bilmek gibi — asla unutmuyorum.",
   "Seninle olmak, en güzel melodiyi her gün yeniden duymak gibi.",
-  "Sen benim için her şeyin anlamını taşıyorsun.",
   "Gözlerindeki ışık hiç sönmüyor — bu seni eşsiz yapıyor.",
-  "Seninle paylaştığım her an, zamanın en güzel dilimleri.",
   "Seni sevmek kolayın kolayı — doğal, saf ve sonsuz.",
   "Seninle olmak, hayatımın en doğru cümlesi.",
   "Sen benim kalbimin en sık ziyaret ettiği yerisin.",
   "Seninle olan her hatıra, içimi ısıtıyor.",
   "Seni sevmek, hayatımın en büyük onuru.",
-  "Seninle her sabaha teşekkür etmemi sağlıyor.",
-  "Sen benim kalbimin en sevdiği ritmisin.",
   /* Burç temalı */
   "Yengeç burçlusun — kalbinin derinliği ve sezgilerinin gücü seni gerçekten özel kılıyor.",
   "Ay'ın çocuğusun; tıpkı Ay gibi her haliyle büyüleyicisin.",
-  "Yıldızlar seni özel bir amaç için bir araya getirmiş gibi.",
   "Ejderha yılında doğmuşsun — o güç, cesaret ve büyü sende hep hissedilir.",
-  "Su elementi sana o derin sezgiyi vermiş; duygularını bu kadar güzel taşıyabilmek bir hediyedir.",
+  "Su elementi sana o derin sezgiyi vermiş; duyguları bu kadar güzel taşımak bir hediyedir.",
   "Doğduğun gün dünya çok güzel bir hediye aldı — seni.",
   "Ay seni yönetir; bu yüzden hem derinsin hem sırlısın hem de büyüleyicisin.",
   /* Güçlü kadın */
   "Hem cesur hem de şefkatlisin — bu ikisi bir arada az görülür.",
-  "Sen hem özgün hem de benzersizsin.",
   "Güçlü bir kalbin var — hem kendini hem de sevdiklerini koruyorsun.",
   "Sevgin her şeyi iyileştiriyor — bu nadiren görülen bir güç.",
   "Sen içten dışa, her açıdan güzelsin.",
@@ -284,7 +420,6 @@ const COMPLIMENTS = [
   "Varlığın güneşin olmadığı günlerde bile sıcak hissettiriyor.",
   "Sana olan sevgim her geçen günle kökleniyor, derinleşiyor.",
   "Seninle geçirilen her gün, bir armağan gibi hissettiriyor.",
-  "Sen benim için şans, huzur ve sevinç anlamına geliyorsun.",
   "Sana baktığımda, dünyanın en güzel tablosunu görüyorum.",
   "Seninle olmak beni her gün daha mutlu ediyor.",
   "Seninle olmak, en güzel rüyayı gerçek gibi yaşamak.",
@@ -292,199 +427,337 @@ const COMPLIMENTS = [
   "Her gün biraz daha sana hayran kalıyorum.",
   "Seninle her anı doyasıya yaşamak istiyorum.",
   "Her sabah gözlerimi açtığımda, seninle aynı dünyada olmak için teşekkür ediyorum.",
-  /* Şiirsel finaller */
+  /* Finaller */
   "Sen benim için yıldızlardan da güzel, güneşten de sıcaksın.",
   "Sen benim için hem geçmiş hem gelecek — her şeyimsin.",
   "Senin varlığın bana güç veriyor, dayanma gücü.",
-  "Seninle olmak, her güne anlam katıyor.",
   "Sen benim için hem ışık hem yönsün.",
-  "Her halinle büyülüyorsun — bu seni çok özel kılıyor.",
   "Seninle geçirilen her an, hayatımın en güzel anısı olmaya aday.",
   "Sen benim için bir evren — keşfetmeye doyamıyorum.",
   "Seni sevmek, dünyanın en doğal şeyi.",
   "Sen benim için kelimelerle anlatılamayan bir güzelliksin.",
   "Sen benim için hem sabah hem akşam — günümün tamamısın.",
   "Seninle olmak, hayatımın en güzel sayfası.",
-  "Sen benim için güneş doğmadan önce sabahı müjdeleyen yıldızsın.",
-  "Seni sevmek, her gün yeni bir şey keşfetmek gibi.",
   "Meri jaan, seninle her şey daha büyük, daha derin, daha güzel.",
   "Buggi schnuggi'm, sen benim için dünyanın en güzel sürprizisin.",
   "Sen benim için sonsuz — seni anlatacak kelimeler henüz icat edilmedi.",
+  "Seninle her sabaha bakmak, hayatımın en büyük ödülü.",
+  "Mein fettisacki, seninle paylaşılan sessizlik bile bir şiir.",
+  "Meri jaan, sen olmadan hiçbir şey tam olmazdı.",
 ];
+</script>
 
-/* ── Turkish helpers ─────────────────────────────────────────── */
-const TR_MONTHS = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-const TR_DAYS   = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+<!-- ══════════════════════ LOGIC ═══════════════════════════════ -->
+<script>
+const TR_M = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+const TR_D = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 
-function dayKey(d) { return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate(); }
-function seededIndex(key, len) {
+function seed(key, len) {
   let h = (key * 2654435761) >>> 0;
   h ^= h >> 16; h = (h * 0x45d9f3b) >>> 0; h ^= h >> 16;
   return h % len;
 }
-function dayOfYear(d) { return Math.floor((d - new Date(d.getFullYear(),0,0)) / 86400000); }
-function daysBetween(a, b) { return Math.floor((b - a) / 86400000); }
+function dKey(d)  { return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate(); }
+function dOfYear(d){ return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000); }
+function dBetween(a,b){ return Math.floor((b-a)/86400000); }
 
-/* ── Moon phase ─────────────────────────────────────────────── */
-function moonPhase(date) {
-  const ref = new Date('2000-01-06T18:14:00Z'); // known new moon
-  const period = 29.53059;
-  const elapsed = (date - ref) / 86400000;
-  return ((elapsed % period) + period) % period;
+function moonPhase(d) {
+  const ref = new Date('2000-01-06T18:14:00Z');
+  const p = 29.53059;
+  return (((d-ref)/86400000 % p)+p)%p;
 }
-function moonEmoji(p) {
-  if (p < 1.85)  return { e:'🌑', n:'Yeni Ay' };
-  if (p < 7.38)  return { e:'🌒', n:'Hilal' };
-  if (p < 9.22)  return { e:'🌓', n:'İlk Dördün' };
-  if (p < 14.76) return { e:'🌔', n:'Dolunaya Yakın' };
-  if (p < 16.61) return { e:'🌕', n:'Dolunay' };
-  if (p < 22.15) return { e:'🌖', n:'Azalan Gibbous' };
-  if (p < 23.99) return { e:'🌗', n:'Son Dördün' };
-  return { e:'🌘', n:'Biten Hilal' };
+function moonInfo(p) {
+  if(p<1.85)  return{e:'🌑',n:'Yeni Ay'};
+  if(p<7.38)  return{e:'🌒',n:'Hilal'};
+  if(p<9.22)  return{e:'🌓',n:'İlk Dördün'};
+  if(p<14.76) return{e:'🌔',n:'Büyüyen Ay'};
+  if(p<16.61) return{e:'🌕',n:'Dolunay'};
+  if(p<22.15) return{e:'🌖',n:'Azalan Ay'};
+  if(p<23.99) return{e:'🌗',n:'Son Dördün'};
+  return{e:'🌘',n:'Biten Hilal'};
+}
+function chineseZodiac(y) {
+  const s=["Maymun","Horoz","Köpek","Domuz","Fare","Öküz","Kaplan","Tavşan","Ejderha","Yılan","At","Koyun"];
+  const e=["🐒","🐓","🐕","🐗","🐭","🐂","🐯","🐰","🐉","🐍","🐴","🐑"];
+  const i=((y-1900)%12+12)%12;
+  return{name:s[i],emoji:e[i]};
+}
+function bdayInfo(str) {
+  if(!str) return null;
+  const now=new Date();
+  const [yr,mo,dy]=str.split('-').map(Number);
+  const isToday=now.getDate()===dy&&now.getMonth()===mo-1;
+  let next=new Date(now.getFullYear(),mo-1,dy);
+  if(!isToday&&next<=now) next=new Date(now.getFullYear()+1,mo-1,dy);
+  const daysUntil=isToday?0:Math.ceil((next-now)/86400000);
+  return{isToday,isTomorrow:daysUntil===1,daysUntil,age:next.getFullYear()-yr};
+}
+function greeting() {
+  const h=new Date().getHours();
+  if(h<12) return'Günaydın';
+  if(h<17) return'İyi öğleden sonralar';
+  if(h<21) return'İyi akşamlar';
+  return'İyi geceler';
+}
+function visitStreak() {
+  try {
+    const today=new Date().toDateString();
+    const last=localStorage.getItem('sv_last');
+    let streak=parseInt(localStorage.getItem('sv_streak')||'0');
+    if(last!==today){
+      const yest=new Date(Date.now()-86400000).toDateString();
+      streak=last===yest?streak+1:1;
+      localStorage.setItem('sv_streak',streak);
+      localStorage.setItem('sv_last',today);
+    }
+    return streak;
+  } catch(e){ return null; }
 }
 
-/* ── Birthday countdown ─────────────────────────────────────── */
-function birthdayInfo(birthdayStr) {
-  if (!birthdayStr) return null;
-  const now = new Date();
-  const [yr, mo, dy] = birthdayStr.split('-').map(Number);
-  const isToday = now.getDate()===dy && now.getMonth()===mo-1;
-  let next = new Date(now.getFullYear(), mo-1, dy);
-  if (!isToday && next <= now) next = new Date(now.getFullYear()+1, mo-1, dy);
-  const daysUntil = isToday ? 0 : Math.ceil((next - now) / 86400000);
-  const isTomorrow = daysUntil === 1;
-  const turningAge = next.getFullYear() - yr;
-  return { isToday, isTomorrow, daysUntil, turningAge };
+/* ── Typewriter ── */
+function typeWriter(el, text, done) {
+  el.textContent=''; let i=0;
+  const cursor=document.getElementById('tw-cursor');
+  const t=setInterval(()=>{
+    el.textContent+=text[i++];
+    if(i>=text.length){
+      clearInterval(t);
+      if(cursor) cursor.style.display='none';
+      if(done) done();
+    }
+  }, text.length>80 ? 22 : 28);
 }
 
-/* ── Chinese zodiac (simplified by year) ─────────────────────── */
-function chineseZodiac(year) {
-  const signs = ["Maymun","Horoz","Köpek","Domuz","Fare","Öküz","Kaplan","Tavşan","Ejderha","Yılan","At","Koyun"];
-  const emojis= ["🐒","🐓","🐕","🐗","🐭","🐂","🐯","🐰","🐉","🐍","🐴","🐑"];
-  const i = (year - 2004 % 12 + 120) % 12; // 2000 = Ejderha (Dragon)
-  const idx = ((year - 1900) % 12 + 12) % 12;
-  return { name: signs[idx], emoji: emojis[idx] };
+/* ── Canvas particles ── */
+function initCanvas() {
+  const canvas=document.getElementById('bg');
+  const ctx=canvas.getContext('2d');
+  let W,H,stars=[],petals=[];
+
+  function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
+  }
+  window.addEventListener('resize',resize);
+  resize();
+
+  /* Stars */
+  for(let i=0;i<110;i++) stars.push({
+    x:Math.random(),y:Math.random(),
+    r:Math.random()<.2?1.4:.75,
+    op:Math.random(),spd:.003+Math.random()*.005,dir:Math.random()>.5?1:-1
+  });
+
+  /* Petals */
+  const PC=['#c2185b','#e91e8c','#f48fb1','#ad1457','#ce93d8'];
+  function newPetal(){ return{
+    x:Math.random()*W,y:-20,
+    r:4+Math.random()*7,
+    vy:.4+Math.random()*.9,vx:(Math.random()-.5)*.4,
+    rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.04,
+    op:.55+Math.random()*.35,
+    color:PC[Math.floor(Math.random()*PC.length)]
+  };}
+  for(let i=0;i<18;i++){
+    const p=newPetal();
+    p.y=Math.random()*H; /* distribute on load */
+    petals.push(p);
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    /* stars */
+    stars.forEach(s=>{
+      s.op+=s.spd*s.dir;
+      if(s.op>0.75)s.dir=-1;
+      if(s.op<0.04)s.dir=1;
+      ctx.save();
+      ctx.globalAlpha=s.op;
+      ctx.fillStyle='#fff';
+      ctx.beginPath();
+      ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    });
+    /* petals */
+    petals.forEach(p=>{
+      p.y+=p.vy; p.x+=p.vx; p.rot+=p.vr; p.op-=.0003;
+      if(p.y>H+25||p.op<0){ Object.assign(p,newPetal()); }
+      ctx.save();
+      ctx.globalAlpha=Math.max(0,p.op);
+      ctx.fillStyle=p.color;
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.beginPath();
+      ctx.ellipse(0,0,p.r,p.r*.55,0,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
 }
 
-window.onload = () => {
-  const now = new Date();
+/* ── Main init ── */
+window.addEventListener('DOMContentLoaded', ()=>{
+  initCanvas();
+  const now=new Date();
 
-  /* Compliment */
-  const idx = seededIndex(dayKey(now), COMPLIMENTS.length);
-  document.getElementById('compliment-text').textContent = COMPLIMENTS[idx];
+  /* pick compliment */
+  const idx=seed(dKey(now),COMPLIMENTS.length);
+  const compliment=COMPLIMENTS[idx];
 
-  /* Header */
-  document.getElementById('for-name').textContent = `Sevgili ${CONFIG.name}`;
-  document.getElementById('date-str').textContent = `${TR_DAYS[now.getDay()]}, ${now.getDate()} ${TR_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
-  document.getElementById('from-line').textContent = `— ${CONFIG.senderName}`;
+  /* greeting + name */
+  document.getElementById('greeting').textContent=greeting();
+  document.getElementById('for-name').textContent=`Sevgili ${CONFIG.name}`;
+  document.getElementById('date-line').textContent=`${TR_D[now.getDay()]}, ${now.getDate()} ${TR_M[now.getMonth()]} ${now.getFullYear()}`;
+  document.getElementById('from-line').textContent=`— ${CONFIG.senderName}`;
 
-  /* Birthday banner */
-  const bInfo = birthdayInfo(CONFIG.birthday);
-  if (bInfo) {
-    const banner = document.getElementById('bday-banner');
-    banner.style.display = '';
-    if (bInfo.isToday) {
-      banner.classList.add('today');
-      banner.querySelector('.bday-banner-title').textContent = `🎂 Mutlu ${bInfo.turningAge}. Doğum Günün, ${CONFIG.name}!`;
-      banner.querySelector('.bday-banner-sub').textContent = `Bugün senin özel günün — dünyaya geldiğin gün. ✨`;
-    } else if (bInfo.isTomorrow) {
-      banner.querySelector('.bday-banner-title').textContent = `🎉 Yarın doğum günün! ${bInfo.turningAge} oluyorsun`;
-      banner.querySelector('.bday-banner-sub').textContent = `Uyumadan önce bir dilek tut — her şey gerçek olabilir.`;
-    } else if (bInfo.daysUntil <= 7) {
-      banner.querySelector('.bday-banner-title').textContent = `🎈 Doğum günün ${bInfo.daysUntil} gün sonra`;
-      banner.querySelector('.bday-banner-sub').textContent = `${bInfo.turningAge} olmaya hazır mısın?`;
-    } else {
-      banner.style.display = 'none';
+  /* birthday banner */
+  const bi=bdayInfo(CONFIG.birthday);
+  if(bi){
+    const banner=document.getElementById('bday-banner');
+    if(bi.isToday){
+      banner.style.display='';
+      banner.classList.add('is-today');
+      banner.querySelector('.bday-title').textContent=`🎂 Mutlu ${bi.age}. Doğum Günün, ${CONFIG.name}!`;
+      banner.querySelector('.bday-sub').textContent=`Bugün senin özel günün — dünyaya geldiğin gün ✨`;
+    } else if(bi.isTomorrow){
+      banner.style.display='';
+      banner.querySelector('.bday-title').textContent=`🎉 Yarın doğum günün! ${bi.age} oluyorsun`;
+      banner.querySelector('.bday-sub').textContent=`Uyumadan önce bir dilek tut — her şey gerçek olabilir.`;
+    } else if(bi.daysUntil<=7){
+      banner.style.display='';
+      banner.querySelector('.bday-title').textContent=`🎈 Doğum günün ${bi.daysUntil} gün sonra`;
+      banner.querySelector('.bday-sub').textContent=`${bi.age} olmaya hazır mısın?`;
     }
   }
 
-  /* Astrology */
-  const mp = moonPhase(now);
-  const moon = moonEmoji(mp);
-  document.getElementById('moon-emoji').textContent = moon.e;
-  document.getElementById('moon-name').textContent = moon.n;
+  /* astrology */
+  const moon=moonInfo(moonPhase(now));
+  document.getElementById('moon-e').textContent=moon.e;
+  document.getElementById('moon-n').textContent=moon.n;
+  const [byr]=CONFIG.birthday?CONFIG.birthday.split('-').map(Number):[2000];
+  const cz=chineseZodiac(byr);
+  document.getElementById('cz-e').textContent=cz.emoji;
+  document.getElementById('cz-n').textContent=cz.name;
 
-  const [byear] = CONFIG.birthday ? CONFIG.birthday.split('-').map(Number) : [2000];
-  const cz = chineseZodiac(byear);
-  document.getElementById('cz-emoji').textContent = cz.emoji;
-  document.getElementById('cz-name').textContent = cz.name;
-
-  /* Stats */
-  const doy = dayOfYear(now);
-  document.getElementById('day-num').textContent = doy;
-
-  if (CONFIG.togetherSince) {
-    const since = new Date(CONFIG.togetherSince);
-    const days = daysBetween(since, now);
-    document.getElementById('together-stat').style.display = '';
-    document.getElementById('together-days').textContent = days.toLocaleString('tr-TR');
+  /* stats */
+  document.getElementById('day-n').textContent=dOfYear(now);
+  const streak=visitStreak();
+  if(streak&&streak>1){
+    document.getElementById('streak-stat').style.display='';
+    document.getElementById('streak-n').textContent=streak;
+  }
+  if(CONFIG.togetherSince){
+    const days=dBetween(new Date(CONFIG.togetherSince),now);
+    document.getElementById('together-stat').style.display='';
+    document.getElementById('together-n').textContent=days.toLocaleString('tr-TR');
   }
 
-  /* Stars */
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 90; i++) {
-    const s = document.createElement('div'); s.className = 'star';
-    const sz = Math.random() < 0.25 ? 2 : 1;
-    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${2.5+Math.random()*4.5}s;animation-delay:-${Math.random()*7}s`;
-    starsEl.appendChild(s);
+  /* copy button */
+  document.getElementById('btn-copy').addEventListener('click',async()=>{
+    try{
+      await navigator.clipboard.writeText(compliment);
+      const btn=document.getElementById('btn-copy');
+      btn.classList.add('ok');
+      btn.querySelector('span').textContent='Kopyalandı ✓';
+      setTimeout(()=>{ btn.classList.remove('ok'); btn.querySelector('span').textContent='Kalbe Kaydet'; },2200);
+    }catch(e){}
+  });
+
+  /* share button */
+  const shareBtn=document.getElementById('btn-share');
+  if(navigator.share){
+    shareBtn.addEventListener('click',()=>{
+      navigator.share({ title:`Sana Özel — ${CONFIG.name}`, text:compliment, url:location.href }).catch(()=>{});
+    });
+  } else {
+    shareBtn.style.display='none';
   }
 
-  /* Petals */
-  const petalColors = ['#c2185b','#e91e8c','#f48fb1','#ad1457','#9c27b0','#880e4f'];
-  for (let i = 0; i < 20; i++) {
-    const p = document.createElement('div'); p.className = 'petal';
-    const sz = 7 + Math.random() * 11;
-    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${petalColors[Math.floor(Math.random()*petalColors.length)]};animation-duration:${8+Math.random()*11}s;animation-delay:-${Math.random()*18}s`;
-    document.body.appendChild(p);
-  }
-};
+  /* loader out → then typewriter */
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('out');
+    setTimeout(()=>{
+      typeWriter(document.getElementById('comp-text'), compliment);
+    },400);
+  },900);
+});
 </script>
 
-<!-- ══ PAGE ════════════════════════════════════════════════════ -->
-<div class="container">
+<!-- ══════════════════════ HTML ════════════════════════════════ -->
+<div class="page">
 
-  <!-- Birthday banner (shown only near birthday) -->
+  <!-- Birthday banner (hidden by default) -->
   <div id="bday-banner" class="bday-banner" style="display:none">
-    <p class="bday-banner-title"></p>
-    <p class="bday-banner-sub"></p>
+    <p class="bday-title"></p>
+    <p class="bday-sub"></p>
   </div>
 
   <!-- Header -->
+  <p class="greeting" id="greeting">Günaydın</p>
   <p class="for-name" id="for-name">Sevgili Aşkım</p>
-  <p class="today-label" id="date-str">…</p>
+  <p class="date-line" id="date-line">…</p>
 
-  <!-- Main compliment card -->
-  <div class="card">
-    <p class="comp-tag">✦ &nbsp; bugünkü sürprizin &nbsp; ✦</p>
-    <p class="compliment" id="compliment-text">…</p>
-    <p class="from-line" id="from-line">— Seni seven</p>
+  <!-- Main card -->
+  <div class="card-wrap">
+    <div class="card-glow"></div>
+    <div class="card">
+      <div class="eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">✦ bugünkü sürprizin ✦</span>
+        <div class="eyebrow-line"></div>
+      </div>
+
+      <div class="compliment-wrap">
+        <p class="compliment">
+          <span class="q-open">&ldquo;</span><span id="comp-text"></span><span id="tw-cursor" class="cursor-blink"></span><span class="q-close">&rdquo;</span>
+        </p>
+      </div>
+
+      <p class="from-line" id="from-line">— Seni seven</p>
+
+      <div class="card-actions">
+        <button class="btn btn-copy" id="btn-copy">
+          <span>Kalbe Kaydet</span>
+        </button>
+        <button class="btn btn-share" id="btn-share">
+          <span>Paylaş</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Astrology section -->
-  <p class="section-label">✦ &nbsp; senin gökyüzün &nbsp; ✦</p>
+  <div class="sec-label">
+    <div class="sec-label-line"></div>
+    <span class="sec-label-text">✦ senin gökyüzün ✦</span>
+    <div class="sec-label-line"></div>
+  </div>
+
   <div class="astro-grid">
-    <div class="astro-card">
-      <span class="astro-icon">♋</span>
-      <p class="astro-title">Burç</p>
-      <p class="astro-value">Yengeç</p>
-      <p class="astro-sub">Su · Ay</p>
+    <div class="a-card">
+      <span class="a-icon">♋</span>
+      <p class="a-label">Burç</p>
+      <p class="a-val">Yengeç</p>
+      <p class="a-sub">Su · Ay</p>
     </div>
-    <div class="astro-card">
-      <span class="astro-icon" id="moon-emoji">🌕</span>
-      <p class="astro-title">Bugünün Ayı</p>
-      <p class="astro-value" id="moon-name">…</p>
-      <p class="astro-sub">Cancer'ın efendisi</p>
+    <div class="a-card">
+      <span class="a-icon" id="moon-e">🌕</span>
+      <p class="a-label">Bugünün Ayı</p>
+      <p class="a-val" id="moon-n">…</p>
+      <p class="a-sub">Yengeç'in efendisi</p>
     </div>
-    <div class="astro-card a3">
-      <span class="astro-icon" id="cz-emoji">🐉</span>
-      <p class="astro-title">Çin Burcu</p>
-      <p class="astro-value" id="cz-name">Ejderha</p>
-      <p class="astro-sub">2000 · Metal</p>
+    <div class="a-card span2">
+      <span class="a-icon" id="cz-e">🐉</span>
+      <p class="a-label">Çin Burcu</p>
+      <p class="a-val" id="cz-n">Ejderha</p>
+      <p class="a-sub">2000 · Metal</p>
     </div>
   </div>
 
-  <!-- Cancer traits -->
-  <div class="traits-wrap">
+  <div class="traits">
     <span class="trait">Sezgisel</span>
     <span class="trait">Koruyucu</span>
     <span class="trait">Sadık</span>
@@ -492,25 +765,32 @@ window.onload = () => {
     <span class="trait">Derin hisseden</span>
     <span class="trait">Şefkatli</span>
     <span class="trait">Güçlü</span>
+    <span class="trait">Büyüleyici</span>
   </div>
 
   <!-- Stats -->
   <div class="stats">
     <div class="stat">
-      <div class="stat-num" id="day-num">—</div>
-      <div class="stat-lbl">yılın günü</div>
+      <div class="stat-n" id="day-n">—</div>
+      <div class="stat-l">Yılın Günü</div>
+    </div>
+    <div class="stat" id="streak-stat" style="display:none">
+      <div class="stat-n" id="streak-n">—</div>
+      <div class="stat-l">Gün Üst Üste</div>
     </div>
     <div class="stat" id="together-stat" style="display:none">
-      <div class="stat-num" id="together-days">—</div>
-      <div class="stat-lbl">birlikte gün</div>
+      <div class="stat-n" id="together-n">—</div>
+      <div class="stat-l">Birlikte Gün</div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
-    <p><span class="heart">❤️</span></p>
-    <p style="margin-top:0.6rem">Her gün farklı · Her gün sana özel</p>
-    <p>Kırşehir'den dünyaya, seninle her yer güzel</p>
+    <div class="f-line"></div>
+    <p class="f-heart">❤️</p>
+    <p class="f-text">
+      Her gün farklı · Her gün sana özel<br>
+      Kırşehir'den dünyaya, seninle her yer güzel
+    </p>
   </footer>
 
 </div>
