@@ -201,7 +201,7 @@ def build_email(compliment):
 </table>
 </body></html>
 """
-    plain = f"Sevgili {LOVER_NAME},\n\n"{compliment}"\n\n— {SENDER_NAME}\n\n({date_str})"
+    plain = f"Sevgili {LOVER_NAME},\n\n\"{compliment}\"\n\n— {SENDER_NAME}\n\n({date_str})"
     return html, plain
 
 def send():
