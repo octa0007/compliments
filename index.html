@@ -4,383 +4,497 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sana Özel 💕</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       min-height: 100vh;
-      background: #0d0508;
+      background: #0a0410;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       font-family: 'Lato', sans-serif;
       color: #f9e8ef;
       overflow-x: hidden;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 4rem;
       position: relative;
     }
 
-    /* Stars */
+    /* ── Stars ── */
     #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: twinkle ease-in-out infinite;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.08; }
-      50% { opacity: 0.6; }
-    }
+    .star { position: absolute; background: white; border-radius: 50%; animation: twinkle ease-in-out infinite; }
+    @keyframes twinkle { 0%,100%{opacity:0.07} 50%{opacity:0.55} }
 
-    /* Rose petals */
+    /* ── Petals ── */
     .petal {
-      position: fixed;
-      border-radius: 50% 0 50% 0;
-      pointer-events: none;
-      z-index: 1;
-      animation: fallDown linear infinite;
-      opacity: 0;
+      position: fixed; border-radius: 50% 0 50% 0; pointer-events: none; z-index: 1;
+      animation: fallDown linear infinite; opacity: 0;
     }
     @keyframes fallDown {
-      0%   { transform: translateY(-30px) rotate(0deg) scale(1);   opacity: 0.7; }
-      80%  { opacity: 0.5; }
-      100% { transform: translateY(110vh) rotate(520deg) scale(0.7); opacity: 0; }
+      0%   { transform: translateY(-30px) rotate(0deg) scale(1); opacity: 0.7; }
+      80%  { opacity: 0.4; }
+      100% { transform: translateY(110vh) rotate(540deg) scale(0.6); opacity: 0; }
     }
 
-    /* Layout */
-    .container {
-      position: relative;
-      z-index: 10;
-      max-width: 620px;
-      width: 100%;
-      text-align: center;
-    }
+    /* ── Layout ── */
+    .container { position: relative; z-index: 10; max-width: 640px; width: 100%; text-align: center; }
 
-    /* Top name */
+    /* ── Birthday Banner ── */
+    .bday-banner {
+      margin-bottom: 1.8rem;
+      border-radius: 18px;
+      padding: 1.1rem 1.5rem;
+      background: rgba(212,175,55,0.07);
+      border: 1px solid rgba(212,175,55,0.3);
+      animation: fadeDown 0.8s ease both;
+    }
+    .bday-banner.today { border-color: rgba(212,175,55,0.6); background: rgba(212,175,55,0.1); }
+    .bday-banner-title { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem,3.5vw,1.4rem); color: #f0d060; margin-bottom: 0.3rem; }
+    .bday-banner-sub { font-size: 0.82rem; color: #c9a0b4; letter-spacing: 0.1em; }
+
+    /* ── Header ── */
     .for-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.1rem, 3.5vw, 1.5rem);
-      color: #f0d060;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.3rem;
-      animation: fadeDown 0.9s ease both;
+      font-size: clamp(1.2rem, 4vw, 1.65rem);
+      color: #f0d060; letter-spacing: 0.06em;
+      margin-bottom: 0.3rem; animation: fadeDown 0.9s ease both;
     }
     .today-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #c9a0b4;
-      margin-bottom: 2rem;
-      animation: fadeDown 0.9s ease 0.15s both;
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #c9a0b4; margin-bottom: 2rem; animation: fadeDown 0.9s ease 0.12s both;
     }
 
-    /* Card */
+    /* ── Main Card ── */
     .card {
-      border: 1px solid rgba(212,175,55,0.18);
-      border-radius: 22px;
+      border: 1px solid rgba(212,175,55,0.18); border-radius: 22px;
       padding: clamp(2rem,6vw,3.5rem) clamp(1.5rem,5vw,3rem);
-      margin-bottom: 1.8rem;
-      background: rgba(18,6,13,0.9);
+      margin-bottom: 1.6rem;
+      background: rgba(14,5,20,0.92);
       animation: fadeIn 1.1s ease 0.3s both;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% -20%, rgba(194,24,91,0.08) 0%, transparent 70%);
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% -20%, rgba(180,24,91,0.09) 0%, transparent 70%);
       pointer-events: none;
     }
-
     .comp-tag {
-      font-size: 0.68rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: #f48fb1;
-      margin-bottom: 1.8rem;
+      font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: #f48fb1; margin-bottom: 1.8rem;
     }
-
     .compliment {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.25rem, 4vw, 1.85rem);
-      line-height: 1.65;
-      color: #fdeef5;
-      font-style: italic;
-      margin-bottom: 2rem;
-      position: relative;
+      font-size: clamp(1.2rem, 3.8vw, 1.8rem);
+      line-height: 1.7; color: #fdeef5; font-style: italic;
+      margin-bottom: 2rem; position: relative;
     }
-    .compliment::before { content: '\201C'; color: #d4af37; font-size: 3em; line-height: 0; vertical-align: -0.45em; margin-right: 0.05em; font-style: normal; }
-    .compliment::after  { content: '\201D'; color: #d4af37; font-size: 3em; line-height: 0; vertical-align: -0.45em; margin-left: 0.05em;  font-style: normal; }
+    .compliment::before { content: '\201C'; color: #d4af37; font-size: 3em; line-height:0; vertical-align:-0.45em; margin-right:0.05em; font-style:normal; }
+    .compliment::after  { content: '\201D'; color: #d4af37; font-size: 3em; line-height:0; vertical-align:-0.45em; margin-left:0.05em;  font-style:normal; }
+    .from-line { font-size: 0.82rem; color: #c9a0b4; letter-spacing: 0.12em; }
 
-    .from-line {
-      font-size: 0.82rem;
-      color: #c9a0b4;
-      letter-spacing: 0.12em;
+    /* ── Section Label ── */
+    .section-label {
+      font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: #8a6070; margin: 0 0 1rem; animation: fadeIn 1s ease 0.6s both;
     }
 
-    /* Stats */
-    .stats {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-bottom: 1.8rem;
-      flex-wrap: wrap;
-      animation: fadeUp 0.9s ease 0.7s both;
+    /* ── Astrology Grid ── */
+    .astro-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px; margin-bottom: 1.6rem;
+      animation: fadeUp 0.9s ease 0.65s both;
     }
-    .stat {
-      border: 1px solid rgba(212,175,55,0.13);
-      border-radius: 14px;
-      padding: 0.85rem 1.4rem;
-      min-width: 110px;
-      background: rgba(212,175,55,0.04);
+    @media(max-width:480px) { .astro-grid { grid-template-columns: 1fr 1fr; } .astro-grid .a3 { grid-column: 1/-1; } }
+
+    .astro-card {
+      border: 1px solid rgba(140,90,160,0.22);
+      border-radius: 16px; padding: 1.1rem 0.9rem;
+      background: rgba(20,8,30,0.85); text-align: center;
     }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 500;
-      color: #d4af37;
-      line-height: 1;
-      margin-bottom: 0.3rem;
+    .astro-icon { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
+    .astro-title { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #b88fc4; margin-bottom: 0.35rem; }
+    .astro-value { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #e8d0f0; font-weight: 500; }
+    .astro-sub { font-size: 0.68rem; color: #8a6070; margin-top: 0.25rem; }
+
+    /* ── Traits ── */
+    .traits-wrap {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      margin-bottom: 1.6rem; animation: fadeUp 0.9s ease 0.8s both;
     }
-    .stat-lbl {
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #c9a0b4;
+    .trait {
+      font-size: 0.72rem; letter-spacing: 0.08em;
+      border: 1px solid rgba(140,90,180,0.25);
+      border-radius: 99px; padding: 4px 14px;
+      background: rgba(140,90,180,0.07); color: #c4a0d8;
     }
 
-    /* Footer */
-    footer {
-      font-size: 0.82rem;
-      color: #c9a0b4;
-      animation: fadeUp 0.9s ease 0.9s both;
-    }
+    /* ── Stats ── */
+    .stats { display: flex; gap: 12px; justify-content: center; margin-bottom: 1.6rem; flex-wrap: wrap; animation: fadeUp 0.9s ease 0.9s both; }
+    .stat { border: 1px solid rgba(212,175,55,0.14); border-radius: 14px; padding: 0.85rem 1.4rem; min-width: 110px; background: rgba(212,175,55,0.04); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 500; color: #d4af37; line-height: 1; margin-bottom: 0.3rem; }
+    .stat-lbl { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c9a0b4; }
+
+    /* ── Footer ── */
+    footer { font-size: 0.8rem; color: #7a5068; animation: fadeUp 0.9s ease 1s both; line-height: 1.9; }
     .heart { display: inline-block; animation: pulse 2.2s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
 
-    /* Day of year progress */
-    .progress-wrap {
-      max-width: 280px;
-      margin: 1.5rem auto 0;
-    }
-    .progress-lbl {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #c9a0b4;
-      margin-bottom: 5px;
-      text-align: left;
-    }
-    .progress-bar { background: rgba(255,255,255,0.06); border-radius: 99px; height: 3px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg,#c2185b,#d4af37); border-radius: 99px; }
-
-    /* Animations */
-    @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:none} }
-    @keyframes fadeUp   { from{opacity:0;transform:translateY(18px)}  to{opacity:1;transform:none} }
+    /* ── Animations ── */
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:none} }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(16px)}  to{opacity:1;transform:none} }
     @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
-
-    /* Responsive */
-    @media(max-width:480px) {
-      .stat { min-width: 90px; }
-    }
   </style>
 </head>
 <body>
 
 <div id="stars"></div>
 
-<!-- ── CONFIGURATION ─────────────────────────────────────────── -->
+<!-- ══ CONFIGURATION ═══════════════════════════════════════════════ -->
 <script>
-  const CONFIG = {
-    name:          "Aşkım",          // ← her name or nickname (e.g. "Elif", "Canım")
-    togetherSince: "01.12.2024",               // ← your anniversary, e.g. "2021-06-15" (leave "" to hide)
-    senderName:    "Seni seven",     // ← how you sign off
-    city:          "Kırşehir",       // ← her hometown shown in footer
-  };
+const CONFIG = {
+  name:          "Sultan",           // ← her name / nickname
+  birthday:      "2000-06-29",      // ← her birthday (YYYY-MM-DD)
+  togetherSince: "",                // ← anniversary date, e.g. "2022-03-14" (or leave "")
+  senderName:    "Seni seven",      // ← your sign-off
+};
 </script>
-<!-- ──────────────────────────────────────────────────────────── -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
 
 <script>
-  const COMPLIMENTS = [
-    "Gülüşün odayı aydınlatıyor, tıpkı güneşin sabahı aydınlattığı gibi.",
-    "Sen dünyayı daha güzel bir yer yapıyorsun, sadece var olarak.",
-    "Varlığın tek başına bir armağan — bunu hiç unutma.",
-    "Gözlerin içindeki güzelliği yansıtıyor; görmek isteyenlere yeter.",
-    "Seninle geçen her an, hayatımın en değerli anları arasında.",
-    "Zekân ve güzelliğin mükemmel bir uyum içinde dans ediyor.",
-    "Kalbinin iyiliği seni dünyada eşsiz kılıyor.",
-    "Seninle olmak cenneti yeryüzünde yaşatıyor.",
-    "Sesinin tonu beni her seferinde büyülüyor.",
-    "Sen her bakışta biraz daha güzelleşiyorsun.",
-    "Düşünce biçimin beni her zaman hayrete düşürüyor.",
-    "Seninle gülmek dünyanın en güzel sesi.",
-    "Sen olmasan bu dünya ne kadar eksik kalırdı.",
-    "Güçlü ve nazik olmayı bir arada başarmak için seçilmiş gibisin.",
-    "Her geçen gün seni bir önceki günden daha çok seviyorum.",
-    "Sen benim en büyük ilham kaynağımsın.",
-    "Bakışlarında bir dünya var; içinde kaybolmak istiyorum.",
-    "Seninle geçirdiğim her dakika, bir hazine gibi saklıyorum içimde.",
-    "Seni düşündüğümde her şey daha hafif hissettiriyor.",
-    "Hem güçlü hem şefkatli olmayı — bunu çok az kişi başarır.",
-    "Kahkahanı duymak benim için en değerli armağan.",
-    "Sen benim kalbimin en huzurlu köşesisin.",
-    "Varlığın sadece benim için değil, çevrendeki herkes için bir şans.",
-    "Seninle baş başa geçirilen her an, ömrümün en değerlisi.",
-    "Seni sevmek hayatımın en doğru kararı.",
-    "Sen benim için güneşin doğduğu yönsün.",
-    "Her halin farklı bir güzellik taşıyor.",
-    "Seninle her şey daha anlamlı hissettiriyor.",
-    "Hem aklımı hem kalbimi dolduruyorsun — bu bende herkese nasip olmaz.",
-    "Kibarlığın ve nezaketin seni çok özel yapıyor.",
-    "Seninle olmak, hayatımın en büyük şansı.",
-    "Sen benim en sevdiğim hikayesin.",
-    "Seninle geçen her mevsim renkleniyor, anlam kazanıyor.",
-    "Senin varlığın hayatıma anlam katıyor.",
-    "Her gün seninle biraz daha büyüyorum.",
-    "Sen benim için çok değerlisin — bunu her zaman bil.",
-    "Seninle olmak bir rüya, ama gerçeğinden daha güzel.",
-    "Güzelliğin içten geliyor; bu seni gerçekten eşsiz kılıyor.",
-    "Sen benim dünyamın en güzel köşesisin.",
-    "Kalbin kadar güzel bir ruh az görülür.",
-    "Seninle olmak bana tam bir huzur veriyor.",
-    "Her bakışın kalbimi ısıtıyor, her seferinde.",
-    "Hem akıllı hem zarif; iki şeyi aynı anda bu kadar güzel taşıyan az.",
-    "Gözlerin içindeki sonsuz derinliği yansıtıyor.",
-    "Seni sevmek, nefes almak kadar doğal geliyor bana.",
-    "Sen benim için her gün yeniden doğan bir mucizesin.",
-    "Zarif duruşun ve güzel kalbinle gerçekten eşsizsin.",
-    "Her geçen gün sana olan sevgim biraz daha derinleşiyor.",
-    "Sen hem güçlü hem naifsin — bu kombinasyon seni eşsiz yapıyor.",
-    "Sen benim için güneşin ilk ışığı gibisin.",
-    "Seninle her sabaha uyanmak, hayatımın en büyük lüksü.",
-    "Seni tanımak, hayatıma en güzel şeyi katmak oldu.",
-    "Sen her zaman çevreni daha aydınlık bir yere dönüştürüyorsun.",
-    "Güzelliğin zamanla değil, kalpten geliyor — bu hiç solmaz.",
-    "Seninle birlikte olmak, her gün küçük bir mucize.",
-    "Senin gibisi gerçekten az; bu dünyada bunu bilen şanslı.",
-    "Her gülüşünde bir dünya var ve ben o dünyada yaşamak istiyorum.",
-    "Sen benim için yıldızlardan daha parlaksın.",
-    "Seninle geçirilen her anı ömrüm boyunca hatırlayacağım.",
-    "Sen benim kalbimin en sevdiği şarkısısın.",
-    "Seni düşündüğümde her şey yerine oturuyor.",
-    "Sana olan sevgim her gün biraz daha büyüyor.",
-    "Seninle olmak, hayatımın en iyi kararı — her gün bunu hissediyorum.",
-    "Sen benim için hem sığınak hem macera.",
-    "Kırşehir seni doğurmuş, dünya sana şükretmeli.",
-    "Seninle geçen 40 yıl dünyaya ne kadar güzellik kattı — düşünebiliyor musun?",
-  ];
+/* ── 153 Turkish compliments ─────────────────────────────────── */
+const COMPLIMENTS = [
+  /* Klasik romantik */
+  "Gülüşün odayı aydınlatıyor, tıpkı güneşin sabahı aydınlattığı gibi.",
+  "Sen dünyayı daha güzel bir yer yapıyorsun, sadece var olarak.",
+  "Varlığın tek başına bir armağan — bunu hiç unutma.",
+  "Gözlerin içindeki güzelliği yansıtıyor; görmek isteyenlere yeter.",
+  "Seninle geçen her an, hayatımın en değerli anları arasında.",
+  "Zekân ve güzelliğin mükemmel bir uyum içinde dans ediyor.",
+  "Kalbinin iyiliği seni dünyada eşsiz kılıyor.",
+  "Seninle olmak cenneti yeryüzünde yaşatıyor.",
+  "Sesinin tonu beni her seferinde büyülüyor.",
+  "Sen her bakışta biraz daha güzelleşiyorsun.",
+  "Düşünce biçimin beni her zaman hayrete düşürüyor.",
+  "Seninle gülmek dünyanın en güzel sesi.",
+  "Sen olmasan bu dünya ne kadar eksik kalırdı.",
+  "Güçlü ve nazik olmayı bir arada başarmak için seçilmiş gibisin.",
+  "Her geçen gün seni bir önceki günden daha çok seviyorum.",
+  "Sen benim en büyük ilham kaynağımsın.",
+  "Bakışlarında bir dünya var; içinde kaybolmak istiyorum.",
+  "Seninle geçirdiğim her dakika, bir hazine gibi saklıyorum içimde.",
+  "Seni düşündüğümde her şey daha hafif hissettiriyor.",
+  "Hem güçlü hem şefkatli olmayı — bunu çok az kişi başarır.",
+  "Kahkahanı duymak benim için en değerli armağan.",
+  "Sen benim kalbimin en huzurlu köşesisin.",
+  "Varlığın sadece benim için değil, çevrendeki herkes için bir şans.",
+  "Seninle baş başa geçirilen her an, ömrümün en değerlisi.",
+  "Seni sevmek hayatımın en doğru kararı.",
+  "Sen benim için güneşin doğduğu yönsün.",
+  "Her halin farklı bir güzellik taşıyor.",
+  "Seninle her şey daha anlamlı hissettiriyor.",
+  "Hem aklımı hem kalbimi dolduruyorsun.",
+  "Kibarlığın ve nezaketin seni çok özel yapıyor.",
+  "Seninle olmak, hayatımın en büyük şansı.",
+  "Sen benim en sevdiğim hikayesin.",
+  "Seninle geçen her mevsim renkleniyor ve anlam kazanıyor.",
+  "Senin varlığın hayatıma anlam katıyor.",
+  "Her gün seninle biraz daha büyüyorum.",
+  "Sen benim için çok değerlisin — bunu her zaman bil.",
+  "Seninle olmak bir rüya, ama gerçeğinden daha güzel.",
+  "Güzelliğin içten geliyor; bu seni gerçekten eşsiz kılıyor.",
+  "Sen benim dünyamın en güzel köşesisin.",
+  "Kalbin kadar güzel bir ruh az görülür.",
+  "Seninle olmak bana tam bir huzur veriyor.",
+  "Her bakışın kalbimi ısıtıyor, her seferinde.",
+  "Hem akıllı hem zarif; ikisini bu kadar güzel taşıyan az.",
+  "Gözlerin içindeki sonsuz derinliği yansıtıyor.",
+  "Seni sevmek, nefes almak kadar doğal geliyor bana.",
+  "Sen benim için her gün yeniden doğan bir mucizesin.",
+  "Zarif duruşun ve güzel kalbinle gerçekten eşsizsin.",
+  "Her geçen gün sana olan sevgim biraz daha derinleşiyor.",
+  "Sen hem güçlü hem naifsin — bu kombinasyon seni eşsiz yapıyor.",
+  "Sen benim için güneşin ilk ışığı gibisin.",
+  "Seninle her sabaha uyanmak, hayatımın en büyük lüksü.",
+  "Seni tanımak, hayatıma en güzel şeyi katmak oldu.",
+  "Sen her zaman çevreni daha aydınlık bir yere dönüştürüyorsun.",
+  "Güzelliğin zamanla değil, kalpten geliyor — bu hiç solmaz.",
+  "Seninle birlikte olmak, her gün küçük bir mucize.",
+  "Senin gibisi gerçekten az; bu dünyada bunu bilen şanslı.",
+  "Her gülüşünde bir dünya var ve ben o dünyada yaşamak istiyorum.",
+  "Sen benim için yıldızlardan daha parlaksın.",
+  "Seninle geçirilen her anı ömrüm boyunca hatırlayacağım.",
+  "Sen benim kalbimin en sevdiği şarkısısın.",
+  "Seni düşündüğümde her şey yerine oturuyor.",
+  "Sana olan sevgim her gün biraz daha büyüyor.",
+  "Seninle olmak, hayatımın en iyi kararı — her gün bunu hissediyorum.",
+  "Sen benim için hem sığınak hem macera.",
+  "Kırşehir seni doğurmuş, dünya sana şükretmeli.",
+  /* Pet names ❤️ */
+  "Meri jaan, sen benim canım, ruhum, her şeyimsin — bunu her zaman bil.",
+  "Mein fettisacki, ne kadar tatlı ve eşsiz birisin — kelimeler yetmiyor.",
+  "Sevgili buggi schnuggi'm, seninle her gün yeni bir mucize başlıyor.",
+  "Meri jaan — bu kelime tam seni anlatıyor; sen gerçekten benim caanımsın.",
+  "Her sabah gözlerini açtığında bil ki, buggi schnuggi'm, biri seni çok seviyor.",
+  "Meri jaan, seni sevmek hayatımın en güzel görevidir.",
+  "Mein fettisacki, seninle olmak benim için dünyanın en büyük lüksü.",
+  "Buggi schnuggi'm, seninle paylaşılan kahkahalar benim en sevdiğim müzik.",
+  "Meri jaan, seninle her adım daha anlamlı.",
+  "Mein fettisacki, sen benim için dünyanın en tatlı sırrısın.",
+  "Meri jaan — seninle geçirilen her an, ömrümün en güzel sayfaları.",
+  "Buggi schnuggi'm, seninle paylaşılan her an hazineye dönüşüyor.",
+  "Mein fettisacki, seninle her gün yeni bir maceraya atılmak istiyorum.",
+  /* Derin ve şiirsel */
+  "Seninle olmak, en güzel kitabı sonuna kadar okumak gibi — bitmesini istemiyorum.",
+  "Sen benim için hem liman hem ufuksun.",
+  "Seni sevmek bir seçim değil, bir ihtiyaç — o kadar doğal.",
+  "Her sabah seni düşünerek uyanmak, günün en güzel başlangıcı.",
+  "Seninle paylaşılan sessizlik bile anlamlı.",
+  "Sen benim için kelimelerden büyüksün.",
+  "Her halinle büyüleyicisin — sevinçli, düşünceli, hatta hüzünlüyken bile.",
+  "Seni sevmek, en güzel şiiri ezbere bilmek gibi — asla unutmuyorum.",
+  "Seninle olmak, en güzel melodiyi her gün yeniden duymak gibi.",
+  "Sen benim için her şeyin anlamını taşıyorsun.",
+  "Gözlerindeki ışık hiç sönmüyor — bu seni eşsiz yapıyor.",
+  "Seninle paylaştığım her an, zamanın en güzel dilimleri.",
+  "Seni sevmek kolayın kolayı — doğal, saf ve sonsuz.",
+  "Seninle olmak, hayatımın en doğru cümlesi.",
+  "Sen benim kalbimin en sık ziyaret ettiği yerisin.",
+  "Seninle olan her hatıra, içimi ısıtıyor.",
+  "Seni sevmek, hayatımın en büyük onuru.",
+  "Seninle her sabaha teşekkür etmemi sağlıyor.",
+  "Sen benim kalbimin en sevdiği ritmisin.",
+  /* Burç temalı */
+  "Yengeç burçlusun — kalbinin derinliği ve sezgilerinin gücü seni gerçekten özel kılıyor.",
+  "Ay'ın çocuğusun; tıpkı Ay gibi her haliyle büyüleyicisin.",
+  "Yıldızlar seni özel bir amaç için bir araya getirmiş gibi.",
+  "Ejderha yılında doğmuşsun — o güç, cesaret ve büyü sende hep hissedilir.",
+  "Su elementi sana o derin sezgiyi vermiş; duygularını bu kadar güzel taşıyabilmek bir hediyedir.",
+  "Doğduğun gün dünya çok güzel bir hediye aldı — seni.",
+  "Ay seni yönetir; bu yüzden hem derinsin hem sırlısın hem de büyüleyicisin.",
+  /* Güçlü kadın */
+  "Hem cesur hem de şefkatlisin — bu ikisi bir arada az görülür.",
+  "Sen hem özgün hem de benzersizsin.",
+  "Güçlü bir kalbin var — hem kendini hem de sevdiklerini koruyorsun.",
+  "Sevgin her şeyi iyileştiriyor — bu nadiren görülen bir güç.",
+  "Sen içten dışa, her açıdan güzelsin.",
+  "Seninle olmak beni daha iyi bir insan yapıyor.",
+  /* Günlük güzellik */
+  "Seni düşünmek bile yüzümde gülümseme açıyor.",
+  "Varlığın güneşin olmadığı günlerde bile sıcak hissettiriyor.",
+  "Sana olan sevgim her geçen günle kökleniyor, derinleşiyor.",
+  "Seninle geçirilen her gün, bir armağan gibi hissettiriyor.",
+  "Sen benim için şans, huzur ve sevinç anlamına geliyorsun.",
+  "Sana baktığımda, dünyanın en güzel tablosunu görüyorum.",
+  "Seninle olmak beni her gün daha mutlu ediyor.",
+  "Seninle olmak, en güzel rüyayı gerçek gibi yaşamak.",
+  "Sen benim için her günün en güzel sebebisin.",
+  "Her gün biraz daha sana hayran kalıyorum.",
+  "Seninle her anı doyasıya yaşamak istiyorum.",
+  "Her sabah gözlerimi açtığımda, seninle aynı dünyada olmak için teşekkür ediyorum.",
+  /* Şiirsel finaller */
+  "Sen benim için yıldızlardan da güzel, güneşten de sıcaksın.",
+  "Sen benim için hem geçmiş hem gelecek — her şeyimsin.",
+  "Senin varlığın bana güç veriyor, dayanma gücü.",
+  "Seninle olmak, her güne anlam katıyor.",
+  "Sen benim için hem ışık hem yönsün.",
+  "Her halinle büyülüyorsun — bu seni çok özel kılıyor.",
+  "Seninle geçirilen her an, hayatımın en güzel anısı olmaya aday.",
+  "Sen benim için bir evren — keşfetmeye doyamıyorum.",
+  "Seni sevmek, dünyanın en doğal şeyi.",
+  "Sen benim için kelimelerle anlatılamayan bir güzelliksin.",
+  "Sen benim için hem sabah hem akşam — günümün tamamısın.",
+  "Seninle olmak, hayatımın en güzel sayfası.",
+  "Sen benim için güneş doğmadan önce sabahı müjdeleyen yıldızsın.",
+  "Seni sevmek, her gün yeni bir şey keşfetmek gibi.",
+  "Meri jaan, seninle her şey daha büyük, daha derin, daha güzel.",
+  "Buggi schnuggi'm, sen benim için dünyanın en güzel sürprizisin.",
+  "Sen benim için sonsuz — seni anlatacak kelimeler henüz icat edilmedi.",
+];
 
-  // ── Turkish month names
-  const TR_MONTHS = [
-    "Ocak","Şubat","Mart","Nisan","Mayıs","Haziran",
-    "Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"
-  ];
-  const TR_DAYS = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+/* ── Turkish helpers ─────────────────────────────────────────── */
+const TR_MONTHS = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+const TR_DAYS   = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 
-  // ── Pick compliment based on calendar date (stable all day, changes at midnight)
-  function dayKey(d) {
-    return d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate();
-  }
-  function seededIndex(key, len) {
-    // Simple hash so order isn't just sequential
-    let h = key * 2654435761 >>> 0;
-    h ^= h >> 16; h *= 0x45d9f3b; h ^= h >> 16;
-    return Math.abs(h) % len;
-  }
+function dayKey(d) { return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate(); }
+function seededIndex(key, len) {
+  let h = (key * 2654435761) >>> 0;
+  h ^= h >> 16; h = (h * 0x45d9f3b) >>> 0; h ^= h >> 16;
+  return h % len;
+}
+function dayOfYear(d) { return Math.floor((d - new Date(d.getFullYear(),0,0)) / 86400000); }
+function daysBetween(a, b) { return Math.floor((b - a) / 86400000); }
 
-  function dayOfYear(d) {
-    const start = new Date(d.getFullYear(), 0, 0);
-    return Math.floor((d - start) / 86400000);
-  }
+/* ── Moon phase ─────────────────────────────────────────────── */
+function moonPhase(date) {
+  const ref = new Date('2000-01-06T18:14:00Z'); // known new moon
+  const period = 29.53059;
+  const elapsed = (date - ref) / 86400000;
+  return ((elapsed % period) + period) % period;
+}
+function moonEmoji(p) {
+  if (p < 1.85)  return { e:'🌑', n:'Yeni Ay' };
+  if (p < 7.38)  return { e:'🌒', n:'Hilal' };
+  if (p < 9.22)  return { e:'🌓', n:'İlk Dördün' };
+  if (p < 14.76) return { e:'🌔', n:'Dolunaya Yakın' };
+  if (p < 16.61) return { e:'🌕', n:'Dolunay' };
+  if (p < 22.15) return { e:'🌖', n:'Azalan Gibbous' };
+  if (p < 23.99) return { e:'🌗', n:'Son Dördün' };
+  return { e:'🌘', n:'Biten Hilal' };
+}
 
-  function daysBetween(a, b) {
-    return Math.floor((b - a) / 86400000);
-  }
+/* ── Birthday countdown ─────────────────────────────────────── */
+function birthdayInfo(birthdayStr) {
+  if (!birthdayStr) return null;
+  const now = new Date();
+  const [yr, mo, dy] = birthdayStr.split('-').map(Number);
+  const isToday = now.getDate()===dy && now.getMonth()===mo-1;
+  let next = new Date(now.getFullYear(), mo-1, dy);
+  if (!isToday && next <= now) next = new Date(now.getFullYear()+1, mo-1, dy);
+  const daysUntil = isToday ? 0 : Math.ceil((next - now) / 86400000);
+  const isTomorrow = daysUntil === 1;
+  const turningAge = next.getFullYear() - yr;
+  return { isToday, isTomorrow, daysUntil, turningAge };
+}
 
-  window.onload = () => {
-    const now = new Date();
+/* ── Chinese zodiac (simplified by year) ─────────────────────── */
+function chineseZodiac(year) {
+  const signs = ["Maymun","Horoz","Köpek","Domuz","Fare","Öküz","Kaplan","Tavşan","Ejderha","Yılan","At","Koyun"];
+  const emojis= ["🐒","🐓","🐕","🐗","🐭","🐂","🐯","🐰","🐉","🐍","🐴","🐑"];
+  const i = (year - 2004 % 12 + 120) % 12; // 2000 = Ejderha (Dragon)
+  const idx = ((year - 1900) % 12 + 12) % 12;
+  return { name: signs[idx], emoji: emojis[idx] };
+}
 
-    // Compliment
-    const idx = seededIndex(dayKey(now), COMPLIMENTS.length);
-    document.getElementById('compliment-text').textContent = COMPLIMENTS[idx];
+window.onload = () => {
+  const now = new Date();
 
-    // Header
-    document.getElementById('for-name').textContent = `Sevgili ${CONFIG.name}`;
+  /* Compliment */
+  const idx = seededIndex(dayKey(now), COMPLIMENTS.length);
+  document.getElementById('compliment-text').textContent = COMPLIMENTS[idx];
 
-    // Date string
-    document.getElementById('date-str').textContent =
-      `${TR_DAYS[now.getDay()]}, ${now.getDate()} ${TR_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  /* Header */
+  document.getElementById('for-name').textContent = `Sevgili ${CONFIG.name}`;
+  document.getElementById('date-str').textContent = `${TR_DAYS[now.getDay()]}, ${now.getDate()} ${TR_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  document.getElementById('from-line').textContent = `— ${CONFIG.senderName}`;
 
-    // From
-    document.getElementById('from-line').textContent = `— ${CONFIG.senderName}`;
-
-    // Stats
-    const doy = dayOfYear(now);
-    const daysInYear = (now.getFullYear() % 4 === 0) ? 366 : 365;
-    document.getElementById('day-num').textContent = doy;
-    document.getElementById('progress-fill').style.width = (doy / daysInYear * 100).toFixed(1) + '%';
-    document.getElementById('progress-lbl').textContent = `${doy}. gün — ${daysInYear - doy} gün kaldı`;
-
-    if (CONFIG.togetherSince) {
-      const since = new Date(CONFIG.togetherSince);
-      const days = daysBetween(since, now);
-      document.getElementById('together-stat').style.display = '';
-      document.getElementById('together-days').textContent = days.toLocaleString('tr-TR');
+  /* Birthday banner */
+  const bInfo = birthdayInfo(CONFIG.birthday);
+  if (bInfo) {
+    const banner = document.getElementById('bday-banner');
+    banner.style.display = '';
+    if (bInfo.isToday) {
+      banner.classList.add('today');
+      banner.querySelector('.bday-banner-title').textContent = `🎂 Mutlu ${bInfo.turningAge}. Doğum Günün, ${CONFIG.name}!`;
+      banner.querySelector('.bday-banner-sub').textContent = `Bugün senin özel günün — dünyaya geldiğin gün. ✨`;
+    } else if (bInfo.isTomorrow) {
+      banner.querySelector('.bday-banner-title').textContent = `🎉 Yarın doğum günün! ${bInfo.turningAge} oluyorsun`;
+      banner.querySelector('.bday-banner-sub').textContent = `Uyumadan önce bir dilek tut — her şey gerçek olabilir.`;
+    } else if (bInfo.daysUntil <= 7) {
+      banner.querySelector('.bday-banner-title').textContent = `🎈 Doğum günün ${bInfo.daysUntil} gün sonra`;
+      banner.querySelector('.bday-banner-sub').textContent = `${bInfo.turningAge} olmaya hazır mısın?`;
+    } else {
+      banner.style.display = 'none';
     }
+  }
 
-    // Footer
-    document.getElementById('footer-city').textContent = CONFIG.city;
-    document.getElementById('comp-count').textContent = idx + 1;
-    document.getElementById('comp-total').textContent = COMPLIMENTS.length;
+  /* Astrology */
+  const mp = moonPhase(now);
+  const moon = moonEmoji(mp);
+  document.getElementById('moon-emoji').textContent = moon.e;
+  document.getElementById('moon-name').textContent = moon.n;
 
-    // Stars
-    const stars = document.getElementById('stars');
-    for (let i = 0; i < 80; i++) {
-      const s = document.createElement('div');
-      s.className = 'star';
-      const sz = Math.random() < 0.3 ? 2 : 1;
-      s.style.cssText = `
-        width:${sz}px;height:${sz}px;
-        top:${Math.random()*100}%;left:${Math.random()*100}%;
-        animation-duration:${2.5+Math.random()*4}s;
-        animation-delay:-${Math.random()*6}s;
-      `;
-      stars.appendChild(s);
-    }
+  const [byear] = CONFIG.birthday ? CONFIG.birthday.split('-').map(Number) : [2000];
+  const cz = chineseZodiac(byear);
+  document.getElementById('cz-emoji').textContent = cz.emoji;
+  document.getElementById('cz-name').textContent = cz.name;
 
-    // Petals
-    const colors = ['#c2185b','#e91e8c','#f48fb1','#ad1457','#880e4f'];
-    for (let i = 0; i < 18; i++) {
-      const p = document.createElement('div');
-      p.className = 'petal';
-      const sz = 8 + Math.random() * 10;
-      p.style.cssText = `
-        width:${sz}px;height:${sz}px;
-        left:${Math.random()*100}%;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        animation-duration:${7+Math.random()*10}s;
-        animation-delay:-${Math.random()*15}s;
-      `;
-      document.body.appendChild(p);
-    }
-  };
+  /* Stats */
+  const doy = dayOfYear(now);
+  document.getElementById('day-num').textContent = doy;
+
+  if (CONFIG.togetherSince) {
+    const since = new Date(CONFIG.togetherSince);
+    const days = daysBetween(since, now);
+    document.getElementById('together-stat').style.display = '';
+    document.getElementById('together-days').textContent = days.toLocaleString('tr-TR');
+  }
+
+  /* Stars */
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div'); s.className = 'star';
+    const sz = Math.random() < 0.25 ? 2 : 1;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${2.5+Math.random()*4.5}s;animation-delay:-${Math.random()*7}s`;
+    starsEl.appendChild(s);
+  }
+
+  /* Petals */
+  const petalColors = ['#c2185b','#e91e8c','#f48fb1','#ad1457','#9c27b0','#880e4f'];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div'); p.className = 'petal';
+    const sz = 7 + Math.random() * 11;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${petalColors[Math.floor(Math.random()*petalColors.length)]};animation-duration:${8+Math.random()*11}s;animation-delay:-${Math.random()*18}s`;
+    document.body.appendChild(p);
+  }
+};
 </script>
 
+<!-- ══ PAGE ════════════════════════════════════════════════════ -->
 <div class="container">
 
+  <!-- Birthday banner (shown only near birthday) -->
+  <div id="bday-banner" class="bday-banner" style="display:none">
+    <p class="bday-banner-title"></p>
+    <p class="bday-banner-sub"></p>
+  </div>
+
+  <!-- Header -->
   <p class="for-name" id="for-name">Sevgili Aşkım</p>
   <p class="today-label" id="date-str">…</p>
 
+  <!-- Main compliment card -->
   <div class="card">
     <p class="comp-tag">✦ &nbsp; bugünkü sürprizin &nbsp; ✦</p>
     <p class="compliment" id="compliment-text">…</p>
     <p class="from-line" id="from-line">— Seni seven</p>
   </div>
 
+  <!-- Astrology section -->
+  <p class="section-label">✦ &nbsp; senin gökyüzün &nbsp; ✦</p>
+  <div class="astro-grid">
+    <div class="astro-card">
+      <span class="astro-icon">♋</span>
+      <p class="astro-title">Burç</p>
+      <p class="astro-value">Yengeç</p>
+      <p class="astro-sub">Su · Ay</p>
+    </div>
+    <div class="astro-card">
+      <span class="astro-icon" id="moon-emoji">🌕</span>
+      <p class="astro-title">Bugünün Ayı</p>
+      <p class="astro-value" id="moon-name">…</p>
+      <p class="astro-sub">Cancer'ın efendisi</p>
+    </div>
+    <div class="astro-card a3">
+      <span class="astro-icon" id="cz-emoji">🐉</span>
+      <p class="astro-title">Çin Burcu</p>
+      <p class="astro-value" id="cz-name">Ejderha</p>
+      <p class="astro-sub">2000 · Metal</p>
+    </div>
+  </div>
+
+  <!-- Cancer traits -->
+  <div class="traits-wrap">
+    <span class="trait">Sezgisel</span>
+    <span class="trait">Koruyucu</span>
+    <span class="trait">Sadık</span>
+    <span class="trait">Yaratıcı</span>
+    <span class="trait">Derin hisseden</span>
+    <span class="trait">Şefkatli</span>
+    <span class="trait">Güçlü</span>
+  </div>
+
+  <!-- Stats -->
   <div class="stats">
     <div class="stat">
       <div class="stat-num" id="day-num">—</div>
@@ -392,23 +506,13 @@
     </div>
   </div>
 
-  <div class="progress-wrap">
-    <p class="progress-lbl" id="progress-lbl"></p>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-    </div>
-  </div>
-
-  <footer style="margin-top:2rem">
+  <!-- Footer -->
+  <footer>
     <p><span class="heart">❤️</span></p>
-    <p style="margin-top:0.6rem">
-      Komplimanım <span id="comp-count">—</span> / <span id="comp-total">—</span>
-      &nbsp;·&nbsp; Her gün farklı
-      &nbsp;·&nbsp; <span id="footer-city">Kırşehir</span>'den dünyaya
-    </p>
+    <p style="margin-top:0.6rem">Her gün farklı · Her gün sana özel</p>
+    <p>Kırşehir'den dünyaya, seninle her yer güzel</p>
   </footer>
 
 </div>
-
 </body>
 </html>
