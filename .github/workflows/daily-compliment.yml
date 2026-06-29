@@ -2,9 +2,9 @@ name: Daily Compliment Email
 
 on:
   schedule:
-    # Runs every day at 07:00 Vienna time (05:00 UTC)
-    # Adjust the hour to match when she wakes up!
-    - cron: '0 5 * * *'
+    # Runs every day at 07:12 Vienna time (05:12 UTC)
+    # Using an off-peak minute avoids GitHub Actions queue delays!
+    - cron: '12 5 * * *'
   workflow_dispatch:  # also allow manual trigger for testing
 
 jobs:
