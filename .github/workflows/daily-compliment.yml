@@ -1,0 +1,19 @@
+name: Daily Compliment Email
+
+on:
+  schedule:
+    - cron: '12 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  send-compliment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send daily compliment
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: python send_compliment.py
