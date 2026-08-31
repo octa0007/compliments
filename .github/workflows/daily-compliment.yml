@@ -1,19 +1,29 @@
-name: Daily Compliment Email
+name: Günlük iltifat e-postası
 
 on:
   schedule:
+    # 05:12 UTC — Türkiye saatiyle 08:12
     - cron: '12 5 * * *'
   workflow_dispatch:
 
 jobs:
-  send-compliment:
+  send:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Send daily compliment
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: İltifat dosyasını doğrula
+        run: python -c "import send_compliment as s; print(len(s.load_compliments()), 'iltifat yüklendi')"
+
+      - name: E-postayı gönder
         env:
-          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_USER:         ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
-          SITE_URL: ${{ secrets.SITE_URL }}
+          RECIPIENT_EMAIL:    ${{ secrets.RECIPIENT_EMAIL }}
+          SITE_URL:           ${{ secrets.SITE_URL }}
         run: python send_compliment.py
