@@ -1,0 +1,15 @@
+{
+  "name": "Sana Özel",
+  "short_name": "Sana Özel",
+  "description": "Her gün yeni bir söz, sadece sana.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#060a18",
+  "theme_color": "#060a18",
+  "lang": "tr",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
