@@ -2,7 +2,7 @@ name: Günlük iltifat e-postası
 
 on:
   schedule:
-    - cron: '12 5 * * *'
+    - cron: '15 4 * * *'
   workflow_dispatch:
 
 jobs:
