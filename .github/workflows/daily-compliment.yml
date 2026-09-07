@@ -2,7 +2,6 @@ name: Günlük iltifat e-postası
 
 on:
   schedule:
-    # 05:12 UTC — Türkiye saatiyle 08:12
     - cron: '12 5 * * *'
   workflow_dispatch:
 
